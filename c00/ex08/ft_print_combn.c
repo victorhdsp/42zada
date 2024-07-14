@@ -6,16 +6,11 @@
 /*   By: lkt <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 15:18:34 by lkt               #+#    #+#             */
-/*   Updated: 2024/07/14 18:54:26 by lkt              ###   ########.fr       */
+/*   Updated: 2024/07/14 20:35:12 by lkt              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
 
 int	has_equal_nb(int *nbs, int limit)
 {
@@ -47,31 +42,35 @@ int	has_equal_nb(int *nbs, int limit)
 
 void	ft_print_nbs(int *nbs, int limit)
 {
-	int	index;
+	int		index;
+	char	c;
+	int		has_spacer;
 
+	index = 0;
+	c = '0';
+	has_spacer = 0;
+	while (index < limit)
+	{
+		c = '0' + nbs[index];
+		write(1, &c, 1);
+		index++;
+	}
 	index = 0;
 	while (index < limit)
 	{
-		ft_putchar('0' + nbs[index]);
+		if (9 - nbs[index] != limit - 1 - index)
+			has_spacer = 1;
 		index++;
 	}
-	ft_putchar(' ');
+	if (has_spacer)
+		write(1, ", ", 2);
 }
 
-void	ft_print_combn(int n)
+void	ft_make_nbs(int *nbs, int index, int n)
 {
-	int	index;
 	int	tmp_index;
-	int	nbs[9];
 
-	index = 0;
 	tmp_index = 0;
-	while (index < n)
-	{
-		nbs[index] = 0;
-		index++;
-	}
-	index--;
 	while (index >= 0)
 	{
 		if (nbs[index] < 9)
@@ -92,6 +91,21 @@ void	ft_print_combn(int n)
 		}
 		index--;
 	}
+}
+
+void	ft_print_combn(int n)
+{
+	int	index;
+	int	nbs[9];
+
+	index = 0;
+	while (index < n)
+	{
+		nbs[index] = 0;
+		index++;
+	}
+	index--;
+	ft_make_nbs(nbs, index, n);
 }
 /*
 int	main(void)
